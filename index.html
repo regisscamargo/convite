@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camila, você quer sair comigo? 💕</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Página Inicial -->
+    <div id="initial-page" class="page active">
+        <div class="container">
+            <h1 class="title">Camila, você quer sair comigo?</h1>
+            <div class="buttons-container">
+                <button id="yes-btn" class="btn btn-yes">SIM 💕</button>
+                <button id="no-btn" class="btn btn-no">NÃO</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Restaurantes -->
+    <div id="restaurant-modal" class="modal">
+        <div class="modal-content">
+            <h2>Onde você quer ir?</h2>
+            <div class="restaurants-grid">
+                <div class="restaurant-card" data-restaurant="Muzzarela">
+                    <div class="restaurant-icon">🍕</div>
+                    <p>Muzzarela</p>
+                </div>
+                <div class="restaurant-card" data-restaurant="Ostearia">
+                    <div class="restaurant-icon">🦞</div>
+                    <p>Ostearia</p>
+                </div>
+                <div class="restaurant-card" data-restaurant="Casa Gourmet">
+                    <div class="restaurant-icon">🍽️</div>
+                    <p>Casa Gourmet</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Calendário -->
+    <div id="calendar-modal" class="modal">
+        <div class="modal-content calendar-modal">
+            <h2>Quando você quer ir?</h2>
+            <div id="calendar-container" class="calendar-container">
+                <!-- Será preenchido por JavaScript -->
+            </div>
+            <button id="close-calendar" class="btn btn-secondary">Fechar</button>
+        </div>
+    </div>
+
+    <!-- Página de Sucesso -->
+    <div id="success-page" class="page">
+        <div class="container success-container">
+            <div class="polo-container">
+                <img id="polo-image" src="img/polo.png" alt="Polo carregando..." class="polo-image">
+                <div id="loading-overlay" class="loading-overlay">
+                    <div class="spinner"></div>
+                    <p>Te buscarei em <span id="success-datetime"></span></p>
+                </div>
+            </div>
+            <h2>Você é incrível! 🎉</h2>
+            <p id="success-message"></p>
+            <button id="reset-btn" class="btn btn-secondary">Recomeçar</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
