@@ -75,7 +75,7 @@ app.get('/agenda', (req, res) => {
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Agenda - Camila Convite</title>
+            <title>Agenda - Chayanne Convite</title>
             <style>
                 * {
                     margin: 0;

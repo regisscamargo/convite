@@ -140,6 +140,8 @@ body {
     width: 100%;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
     animation: slideUp 0.3s ease;
+    position: relative;
+    overflow: hidden;
 }
 
 .calendar-modal {
@@ -333,6 +335,27 @@ body {
     display: none;
 }
 
+/* Confirmation modal polo image */
+.confirm-polo {
+    width: 110px;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+}
+
+/* walking animation for confirmation polo */
+.confirm-polo.walking {
+    animation: walk 3s linear forwards;
+}
+
+@keyframes walk {
+    0% { left: 0; transform: translateY(0) rotate(0deg); }
+    25% { left: 25%; transform: translateY(-6px) rotate(-6deg); }
+    50% { left: 50%; transform: translateY(0) rotate(6deg); }
+    75% { left: 75%; transform: translateY(-6px) rotate(-6deg); }
+    100% { left: calc(100% - 120px); transform: translateY(0) rotate(0deg); }
+}
+
 /* Responsivo */
 @media (max-width: 768px) {
     .title {
@@ -396,6 +419,10 @@ body {
     .modal-content {
         padding: 20px;
         border-radius: 15px;
+    }
+
+    .confirm-polo {
+        width: 80px;
     }
 
     .modal-content h2 {

@@ -21,6 +21,10 @@ const loadingOverlay = document.getElementById('loading-overlay');
 const successMessage = document.getElementById('success-message');
 const successDateTime = document.getElementById('success-datetime');
 const calendarContainer = document.getElementById('calendar-container');
+const confirmationModal = document.getElementById('confirmation-modal');
+const confirmBtn = document.getElementById('confirm-btn');
+const cancelConfirmBtn = document.getElementById('cancel-confirm-btn');
+const confirmDatetimeText = document.getElementById('confirm-datetime');
 
 // Botão NÃO - Muda de posição quando tenta clicar
 noBtn.addEventListener('mouseenter', moveNoButton);
@@ -43,10 +47,25 @@ function moveNoButton() {
     noBtn.style.zIndex = '999';
 }
 
-// Botão SIM
+// Botão SIM: abrir modal de confirmação com mensagem fixa
 yesBtn.addEventListener('click', () => {
+    // Preparar seleção automática (estado interno)
+    const today = new Date();
+    const currentYear = today.getFullYear();
+    const currentMonth = today.getMonth();
+    const autoDate = new Date(currentYear, currentMonth, 21);
+
+    const firstRestaurant = document.querySelector('.restaurant-card');
+    appState.selectedRestaurant = firstRestaurant ? firstRestaurant.dataset.restaurant : 'Restaurante a combinar';
+    appState.selectedDate = autoDate.toISOString().split('T')[0];
+    appState.selectedTime = '20:00';
+    appState.selectedDateTime = `${autoDate.toLocaleDateString('pt-BR')} às ${appState.selectedTime}`;
+
+    // Atualizar interface: mostrar modal de confirmação
     initialPage.classList.remove('active');
-    restaurantModal.classList.add('active');
+    confirmationModal.classList.add('active');
+    // Atualizar texto do modal
+    confirmDatetimeText.textContent = `Dia 21 às 20:00 — passarei te pegar!`;
 });
 
 // Seleção de Restaurante
@@ -76,7 +95,8 @@ function generateCalendar() {
     const today = new Date();
     const currentYear = today.getFullYear();
     const currentMonth = today.getMonth();
-    const availableDays = [4, 14, 15, 16, 17, 18, 19];
+    // Disponibilizar somente o dia 21 do mês atual
+    const availableDays = [21];
 
     // Datas específicas do mês atual
     for (const day of availableDays) {
@@ -88,8 +108,8 @@ function generateCalendar() {
         dayLabel.textContent = `${dayName} (${date.toLocaleDateString('pt-BR')})`;
         calendarContainer.appendChild(dayLabel);
         
-        // Horários: 19h até 22h
-        for (let hour = 19; hour <= 22; hour++) {
+        // Horário único: 20h
+        for (let hour = 20; hour <= 20; hour++) {
             const timeSlot = document.createElement('div');
             timeSlot.className = 'time-slot';
             timeSlot.textContent = `${hour}:00`;
@@ -111,6 +131,15 @@ function generateCalendar() {
         }
     }
     
+    // Pré-selecionar o único horário disponível (se existir)
+    const firstSlot = calendarContainer.querySelector('.time-slot');
+    if (firstSlot) {
+        firstSlot.classList.add('selected');
+        appState.selectedTime = firstSlot.dataset.time;
+        appState.selectedDate = firstSlot.dataset.date;
+        appState.selectedDateTime = `${firstSlot.dataset.fullDate} às ${appState.selectedTime}`;
+    }
+
     // Botão de confirmar no final
     const confirmBtn = document.createElement('button');
     confirmBtn.textContent = 'Confirmar Data e Hora ✓';
@@ -144,7 +173,8 @@ async function confirmSelection() {
     
     // Atualizar mensagem de sucesso
     successDateTime.textContent = appState.selectedDateTime;
-    successMessage.textContent = `Local: ${appState.selectedRestaurant}`;
+    // Fixed final location text as requested
+    successMessage.textContent = 'Local: minha casa e vá cheirosa pq to na maldade';
     successMessage.style.display = 'block';
     
     // Enviar email após 2 segundos
@@ -190,32 +220,43 @@ async function sendEmail() {
     }
 }
 
-// Botão de Recomeçar
-resetBtn.addEventListener('click', () => {
-    appState = {
-        selectedRestaurant: null,
-        selectedDate: null,
-        selectedTime: null,
-        selectedDateTime: null
-    };
-    
-    noBtn.style.position = 'relative';
-    noBtn.style.left = 'auto';
-    noBtn.style.top = 'auto';
-    noBtn.style.zIndex = 'auto';
-    
-    restaurantCards.forEach(card => card.classList.remove('selected'));
-    document.querySelectorAll('.time-slot').forEach(slot => slot.classList.remove('selected'));
-    
-    successPage.classList.remove('active');
-    initialPage.classList.add('active');
-    
-    // Reinicializar overlay de carregamento
-    loadingOverlay.style.animation = 'none';
-    setTimeout(() => {
-        loadingOverlay.style.animation = 'fadeOut 3s ease-in-out forwards';
-    }, 10);
-});
+// Note: reset button was removed from UI; no reset handler needed.
+
+// Confirmar dentro do modal
+if (confirmBtn) {
+    confirmBtn.addEventListener('click', () => {
+        const poloAnim = document.getElementById('confirm-polo');
+        // start walking animation
+        if (poloAnim) {
+            poloAnim.style.left = '0';
+            poloAnim.classList.add('walking');
+        }
+        // disable buttons while animating
+        confirmBtn.disabled = true;
+        if (cancelConfirmBtn) cancelConfirmBtn.disabled = true;
+
+        // wait 3s for animation then confirm
+        setTimeout(() => {
+            if (poloAnim) poloAnim.classList.remove('walking');
+            confirmationModal.classList.remove('active');
+            // re-enable
+            confirmBtn.disabled = false;
+            if (cancelConfirmBtn) cancelConfirmBtn.disabled = false;
+            // call existing confirm flow
+            confirmSelection();
+        }, 3000);
+    });
+}
+
+// Cancelar confirmação
+if (cancelConfirmBtn) {
+    cancelConfirmBtn.addEventListener('click', () => {
+        confirmationModal.classList.remove('active');
+        // Voltar para a tela inicial
+        successPage.classList.remove('active');
+        initialPage.classList.add('active');
+    });
+}
 
 // Inicializar
 window.addEventListener('load', () => {

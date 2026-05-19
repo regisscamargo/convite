@@ -1,4 +1,4 @@
-# 💕 Camila, Você Quer Sair Comigo?
+# 💕 Chayanne, Você Quer Sair Comigo?
 
 Um site responsivo e interativo para fazer um convite especial! 🎉
 
@@ -75,7 +75,7 @@ O servidor rodará em `http://localhost:3000`
 ## 📁 Estrutura do Projeto
 
 ```
-camila-convite/
+chayanne-convite/
 ├── index.html          # Estrutura HTML com EmailJS
 ├── style.css           # Estilos responsivos
 ├── script.js           # Lógica interativa + EmailJS
@@ -89,7 +89,7 @@ camila-convite/
 ### Alterar Pergunta
 Edite em `index.html`:
 ```html
-<h1 class="title">Camila, você quer sair comigo?</h1>
+<h1 class="title">Chayanne, você quer sair comigo?</h1>
 ```
 
 ### Alterar Restaurantes
@@ -135,7 +135,7 @@ Substitua `img/polo.png` por sua imagem (mantenha o mesmo nome)
 
 ## 💡 Dicas
 
-- Teste o email primeiro antes de enviar o link para Camila
+- Teste o email primeiro antes de enviar o link para Chayanne
 - A Public Key é pública, não há problema em compartilhá-la no código
 - EmailJS tem limite de 200 emails/mês na versão gratuita (mais que suficiente!)
 
@@ -145,4 +145,4 @@ Boa sorte com seu convite! 💕✨
 
 ---
 
-**Feito com ❤️ para Camila** 🎉
+**Feito com ❤️ para Chayanne** 🎉
